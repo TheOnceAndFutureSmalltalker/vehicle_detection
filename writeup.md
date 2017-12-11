@@ -88,25 +88,84 @@ Each of the figures below shows an original image and its histogram of gradients
 <b>Car Image HOG</b>
 </p>
 <br />
-<br />
+
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/hog_road.jpg" />
 <br />
 <b>Road Image HOG</b>
 </p>
 <br />
-<br />
+
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/hog_tree.jpg" />
 <br />
 <b>Tree Image HOG</b>
 </p>
 <br />
+
+
+## Window Search
+In developing a search strategy, first off, I don't want to search  anywhere cars are not likely to appear.  So obviously, avoid the sky, trees, buildings, etc.  Also, I opted for keeping the search simple.  Not too many offsets, etc.
+
+#### Y Axis Search
+After reviewing several frames from the video, I decided to start Y axis searching at 400 - elimnating sky, trees, etc.  The larger the window dimension, the farther down the Y axis I went.  I did not see a need to conduct the search all the way to the bottom of the image.
+
+#### X Axis Search 
+I chose not to narrow the search along the X axis.  This is because the road can swerve right or left.  Also, as in the project video, the car is in the left most lane of 3 lanes and cars in the right most lane.  In such cases, cars can appear at the far edges of the image.
+
+#### Other Considerations 
+A final consideration in window search, is computation costs.  The more windows, the longer it takes to process a frame.  So any additional windows in the search need to provide a definite benefit for the cost.  Several attempts at adding windows, new dimensions, etc. did not yield any significant increase in results.  
+
+My final solution (although modified somewhat later) is as folows
+
+| Y start | Y stop | Window Size | Overlap |
+|-----|-----|-----|-----|
+| 400 | 496 | 64 X 64 | 0.5 |
+| 416 | 560 | 96 X 96 | 0.5 |
+| 432 | 624 | 128 X 128 | 0.5 |
+
+This is illustrated in the figures below.  The code that generated these images is in the jupyter notebook lane_detection.ipynb in the code cell with the same title as the this section.
+
 <br />
 <p align="center">
-<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/hog_sky.jpg" />
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test1_64.jpg"  width="320"/>
 <br />
-<b>Sky Image HOG</b>
+<b>Search Pattern Window Size 64X64</b>
+</p>
+<br />
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test1_96.jpg"  width="320"/>
+<br />
+<b>Search Pattern Window Size 96X96</b>
+</p>
+<br />
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test1_128.jpg"  width="320"/>
+<br />
+<b>Search Pattern Window Size 128X128</b>
+</p>
+<br />
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test1.jpg"  width="320"/>
+<br />
+<b>Full Search Pattern</b>
+</p>
+<br />
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test5.jpg" width="320"/>
+<br />
+<b>Full Search Pattern for Nother Frame</b>
+</p>
+<br />
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test13.jpg" />
+<br />
+<b>Full Search Pattern for Yet Nother Frame</b>
 </p>
 <br />
 
@@ -176,7 +235,10 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ### Discussion
 
-#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+My final video does track the cars and all false positives have been removed.  However, the white car is not adequately identified in all cases.  My model is not very good at detecting the white car in some frames, especially those with light colored pavement.  The result is that the bounding box for the white car sometimes clips the full dimensions of the car.  While the car is identified, its centroid is inaccurate and this could lead to poor decisions for my car.
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+I'm not sure how to improve this approach beyond fine tuning the window search strategy.  More overlapping searches at differing sizes and offets might help.  
+
+What I would like to do, however, is abandon the entire approach so far (linear SVM with derived features) and try a neural network instead.  The window search piece can be reused, as well as the data set.  This would be a very interesting exercise!
+ 
 
