@@ -158,14 +158,14 @@ This is illustrated in the figures below.  The code that generated these images 
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test5.jpg" width="320"/>
 <br />
-<b>Full Search Pattern for Nother Frame</b>
+<b>Full Search Pattern for Another Frame</b>
 </p>
 <br />
 <br />
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test13.jpg"  width="320"/>
 <br />
-<b>Full Search Pattern for Yet Nother Frame</b>
+<b>Full Search Pattern for Yet Another Frame</b>
 </p>
 <br />
 
@@ -173,7 +173,7 @@ This is illustrated in the figures below.  The code that generated these images 
 
 I had 2 kinds of test data.  Single frames for initial testing and training data for training the model.
 
-# Test Data 
+#### Test Data 
 For single frame test data, I opted to use actual frames from the project video.  Six were provided in the project repository.  I generated 7 others from different points in the video.  These were based on trouble spots I experienced in my previous attempt at this project.  These images were used in developing the window search and parameter tuning for the model.  The code I used to generate these additional frames is not in the lane_detection.ipynb but looks like this.
 
 Here are 2 of the frames I generated and used for initial testing.
@@ -193,7 +193,7 @@ Here are 2 of the frames I generated and used for initial testing.
 </p>
 <br />
 
-# Training Data
+#### Training Data
 For training data, I used all png images of cars and non cars provided by the project repository.  These are sourced from GTI and KITTI.  This provided 8792 examples of cars and 8968 examples of non cars.  Some examples of these are shown below. The code that generated these images is in the jupyter notebook lane_detection.ipynb in the code cell with the same title as the this section.
 
 | Label | Example Images |
@@ -265,11 +265,11 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ---
 
-### Discussion
+## Discussion
 
 My final video does track the cars and all false positives have been removed.  However, the white car is not adequately identified in all cases.  My model is not very good at detecting the white car in some frames, especially those with light colored pavement.  The result is that the bounding box for the white car sometimes clips the full dimensions of the car.  While the car is identified, its centroid is inaccurate and this could lead to poor decisions for my car.
 
-I'm not sure how to improve this approach beyond fine tuning the window search strategy.  More overlapping searches at differing sizes and offsets might help.  
+One possible approach to fix this is to fine tuning the window search strategy more thoroughly.  More overlapping searches at differing sizes and offsets might help.  Another might be to augment training data with more white cars - particularly ones taken from video frames.
 
 What I would like to do, however, is abandon the entire approach so far (linear SVM with derived features) and try a neural network instead.  The window search piece can be reused, as well as the training data set.  This would be a very interesting exercise!
  
