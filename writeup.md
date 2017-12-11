@@ -111,12 +111,12 @@ In developing a search strategy, first off, I don't want to search  anywhere car
 After reviewing several frames from the video, I decided to start Y axis searching at 400 - elimnating sky, trees, etc.  The larger the window dimension, the farther down the Y axis I went.  I did not see a need to conduct the search all the way to the bottom of the image.
 
 #### X Axis Search 
-I chose not to narrow the search along the X axis.  This is because the road can swerve right or left.  Also, as in the project video, the car is in the left most lane of 3 lanes and cars in the right most lane.  In such cases, cars can appear at the far edges of the image.
+I chose not to narrow the search along the X axis.  This is because the road can swerve right or left.  Also, as in the project video, the car is in the left most lane of 3 lanes and cars in the right most lane.  In such cases, cars can appear at the far edges of the image.  There are clear examples of this in the figures below.
 
 #### Other Considerations 
-A final consideration in window search, is computation costs.  The more windows, the longer it takes to process a frame.  So any additional windows in the search need to provide a definite benefit for the cost.  Several attempts at adding windows, new dimensions, etc. did not yield any significant increase in results.  
+A final consideration in window search is computation costs.  The more windows, the longer it takes to process a frame.  So any additional windows in the search need to provide a definite benefit for the cost.  Several attempts at adding windows, new dimensions, etc. did not yield any significant increase in results.  
 
-My final solution (although modified somewhat later) is as folows
+My final solution (although tweaked later) is as folows
 
 | Y start | Y stop | Window Size | Overlap |
 |-----|-----|-----|-----|
@@ -163,11 +163,43 @@ This is illustrated in the figures below.  The code that generated these images 
 <br />
 <br />
 <p align="center">
-<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test13.jpg" />
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test13.jpg"  width="320"/>
 <br />
 <b>Full Search Pattern for Yet Nother Frame</b>
 </p>
 <br />
+
+## Data
+
+I had 2 kinds of test data.  Single frames for initial testing and training data for training the model.
+
+# Test Data 
+For single frame test data, I opted to use actual frames from the project video.  Six were provided in the project repository.  I generated 7 others from different points in the video.  These were based on trouble spots I experienced in my previous attempt at this project.  These images were used in developing the window search and parameter tuning for the model.  The code I used to generate these additional frames is not in the lane_detection.ipynb but looks like this.
+
+Here are 2 of the frames I generated and used for initial testing.
+
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/testX.jpg"  width="320"/>
+<br />
+<b>Example Frame from Video Used for Development</b>
+</p>
+<br />
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/testX.jpg"  width="320"/>
+<br />
+<b>Another Example Frame from Video Used for Development</b>
+</p>
+<br />
+
+# Training Data
+For training data, I used all png images of cars and non cars provided by the project repository.  These are sourced from GTI and KITTI.  This provided 8792 examples of cars and 8968 examples of non cars.  Some examples of these are shown below. The code that generated these images is in the jupyter notebook lane_detection.ipynb in the code cell with the same title as the this section.
+
+| Label | Example Images |
+|-------|-----|
+| Cars | |
+| Non Cars | |
 
 #### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
@@ -237,8 +269,8 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 My final video does track the cars and all false positives have been removed.  However, the white car is not adequately identified in all cases.  My model is not very good at detecting the white car in some frames, especially those with light colored pavement.  The result is that the bounding box for the white car sometimes clips the full dimensions of the car.  While the car is identified, its centroid is inaccurate and this could lead to poor decisions for my car.
 
-I'm not sure how to improve this approach beyond fine tuning the window search strategy.  More overlapping searches at differing sizes and offets might help.  
+I'm not sure how to improve this approach beyond fine tuning the window search strategy.  More overlapping searches at differing sizes and offsets might help.  
 
-What I would like to do, however, is abandon the entire approach so far (linear SVM with derived features) and try a neural network instead.  The window search piece can be reused, as well as the data set.  This would be a very interesting exercise!
+What I would like to do, however, is abandon the entire approach so far (linear SVM with derived features) and try a neural network instead.  The window search piece can be reused, as well as the training data set.  This would be a very interesting exercise!
  
 
