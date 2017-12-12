@@ -297,7 +297,7 @@ I tested the pipeline on my single test images.  The result of this can be seen 
 
 ## Create Video
 
-Finally I created a new instance of `VehicleDetectionPipeline` (to start with no history) and used it to create my video output using MoviePy `VideoFileClip`.  The code for this can be seen in the jupyter notebook vehicle_detection.ipynb in the cell with the same name as this section.  The final video is project_video_final.mp4 in the repository.
+Finally I created a new instance of `VehicleDetectionPipeline` (to start with no history) and used it to create my video output using MoviePy `VideoFileClip`.  The code for this can be seen in the jupyter notebook vehicle_detection.ipynb in the cell with the same name as this section.  The final video is <a href="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/project_video_final.mp4">project_video_final.mp4</a> in the repository.
 
 
 ## Discussion
