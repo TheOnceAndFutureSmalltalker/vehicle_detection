@@ -14,7 +14,7 @@ The goals / steps of this project are the following:
 First I will talk about the kinds of features that can be extracted from an image for use in a machine learning algorithm.  There are three basic types, color histograms, spatial binning, and histogram of oriented gradients.
 
 ### Feature Extraction - Color Histograms
-The first of three types of feature extraction was a color histogram.  This type of feature extraction counts the number of pixels falling within a certain range, or bin.  This is done for each of the 3 channels.  Below are the RGB histograms for an image of a car, a section of roag, a tree, and some sky.  You can see that the car histograms are more complex and should be easy to delineate from the other three in a machine learning process.  The code generating these images is in the jupyter notebook lane_detection.ipynb in the code cell with the same title as this section.
+The first of three types of feature extraction was a color histogram.  This type of feature extraction counts the number of pixels falling within a certain range, or bin.  This is done for each of the 3 channels.  Below are the RGB histograms for an image of a car, a section of roag, a tree, and some sky.  You can see that the car histograms are more complex and should be easy to delineate from the other three in a machine learning process.  The code generating these images is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as this section.
 
 <br />
 <p align="center">
@@ -46,7 +46,7 @@ The first of three types of feature extraction was a color histogram.  This type
 <br />
 
 ### Feature Extraction - Spatial Binning
-Spatial binning is an attempt to use raw pixel values as a way to determine if an image is a vehicle or not.  The image is typically reduced in size to xomething manageable like 32X32.  Otherwise, the feature set can become quite long.  Even with 32X32 image and 3 channels, this yields 32X32X3=3072 features!  Below are the plots of the pixel values for a 32X32 vewrsion of the same images used above.  Again the car graph is quite different from the other 3 and should be useful for a machine learning approach.  The code that generated these images is in the jupyter notebook lane_detection.ipynb in the code cell with the same title as the this section.
+Spatial binning is an attempt to use raw pixel values as a way to determine if an image is a vehicle or not.  The image is typically reduced in size to xomething manageable like 32X32.  Otherwise, the feature set can become quite long.  Even with 32X32 image and 3 channels, this yields 32X32X3=3072 features!  Below are the plots of the pixel values for a 32X32 vewrsion of the same images used above.  Again the car graph is quite different from the other 3 and should be useful for a machine learning approach.  The code that generated these images is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
 
 <br />
 <p align="center">
@@ -79,7 +79,7 @@ Spatial binning is an attempt to use raw pixel values as a way to determine if a
 
 ### Feature Extraction - Histogram of Oriented Gradients (HOG)
 The last type of feature extraction looks at the gradient of the pixels - the direction of change of pixel values. 
-Each of the figures below shows an original image and its histogram of gradients.  Again, the vehicle HOG is quite different from the other three and a good candidate for machine learning.  The code that generated these images is in the jupyter notebook lane_detection.ipynb in the code cell with the same title as the this section.
+Each of the figures below shows an original image and its histogram of gradients.  Again, the vehicle HOG is quite different from the other three and a good candidate for machine learning.  The code that generated these images is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
 
 <br />
 <p align="center">
@@ -105,7 +105,7 @@ Each of the figures below shows an original image and its histogram of gradients
 
 
 ## Window Search
-In developing a search strategy, first off, I don't want to search  anywhere cars are not likely to appear.  So obviously, avoid the sky, trees, buildings, etc.  Also, I opted for keeping the search simple.  Not too many offsets, etc.
+In developing a search strategy, first off, I don't want to search  anywhere cars are not likely to appear.  So obviously, avoid the sky, trees, buildings, etc.  Also, I opted for keeping the search simple.  Not too many offsets, etc.  The window search development code is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
 
 #### Y Axis Search
 After reviewing several frames from the video, I decided to start Y axis searching at 400 - elimnating sky, trees, etc.  The larger the window dimension, the farther down the Y axis I went.  I did not see a need to conduct the search all the way to the bottom of the image.
@@ -174,7 +174,7 @@ This is illustrated in the figures below.  The code that generated these images 
 I had 2 kinds of test data.  Single frames for initial testing and training data for training the model.
 
 #### Test Data 
-For single frame test data, I opted to use actual frames from the project video.  Six were provided in the project repository.  I generated 7 others from different points in the video.  These were based on trouble spots I experienced in my previous attempt at this project.  These images were used in developing the window search and parameter tuning for the model.  The code I used to generate these additional frames is not in the lane_detection.ipynb but looks like this.
+For single frame test data, I opted to use actual frames from the project video.  Six were provided in the project repository.  I generated 7 others from different points in the video.  These were based on trouble spots I experienced in my previous attempt at this project.  These images were used in developing the window search and parameter tuning for the model.  The code I used to generate these additional frames is not in the vehicle_detection.ipynb but looks like this.
 
 Here are 2 of the frames I generated and used for initial testing.
 
@@ -200,6 +200,18 @@ For training data, I used all png images of cars and non cars provided by the pr
 |-------|-----|
 | Cars | <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/202.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/21.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/269.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/36.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0037.png"  />  <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0078.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0172.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0236.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0353.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0361.png"  />|
 | Non Cars | <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra124.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra133.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra136.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra14.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra250.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra40.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image26.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image764.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image820.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image911.png" />  |
+
+
+## Search and Classify
+
+Fitting a model for the pipeline was a 4 step process:  1) selecting feature parameters, 2) extracting feature vectors from the training data using those parameters, 3) fitting a linear SVM model using those feature vectors, 3) applying the trained model to the test images (video frames) and visually inspecting for detections and false positives.  Also, since this process involves a window search, I varied that as well.  Some models fit better under one window size, but not another.  All of the code used for this sectoin 
+
+### Parameter Selection
+
+I used all three feature types from above:  color histogram, spatial binning, and HOG.  I had no real intuitions about what parameter values might work so I tweaked most of them.  This exhaustive approach is not good at all since the permutations explode and the cycle time to train the mdoel each time can be time consuming.  I noticed color channel seemed to have the most effect.  I even tried using only HOG features.  Success of these experiments varied quite a bit but no real success.  Whenever I had good detection, I also had several false positives.  Seemed like more than I could reliably filter out.  I then tried the parameter set from Vehicle Detection Lesson, Exercise 35 since this seemed to work well on the test image in that exercise.  This also had a good effect on my test imags so I settled on that.  The final aprameter set is as follows:
+
+| Parameter | Value |
+|-------|-------|
 
 #### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
