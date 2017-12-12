@@ -192,7 +192,7 @@ For training data, I used all png images of cars and non cars provided by the pr
 
 ## Search and Classify
 
-Fitting a model for the pipeline was a 4 step process:  1) selecting feature parameters, 2) extracting feature vectors from the training data using those parameters, 3) fitting a linear SVM model using those feature vectors, 3) applying the trained model to the test images (video frames) and visually inspecting for detections and false positives.  Also, since this process involves a window search, I varied that as well.  Some models fit better under one window size, but not another.  All of the code used for this section is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
+Fitting a model for the pipeline was a 4 step process:  1) selecting feature parameters, 2) extracting feature vectors from the training data using those parameters, 3) fitting a linear SVM model using those feature vectors, 4) applying the trained model to the test images (video frames) and visually inspecting for detections and false positives.  Also, since this process involves a window search, I varied that as well.  Some models fit better under one window size, but not another.  All of the code used for this section is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
 
 ### Parameter Selection
 
