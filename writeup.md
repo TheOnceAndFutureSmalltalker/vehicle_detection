@@ -102,10 +102,10 @@ Each of the figures below shows an original image and its histogram of gradients
 In developing a search strategy, first off, I don't want to search  anywhere cars are not likely to appear.  So obviously, avoid the sky, trees, buildings, etc.  Also, I opted for keeping the search simple.  Not too many offsets, etc.  The window search development code is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
 
 #### Y Axis Search
-After reviewing several frames from the video, I decided to start Y axis searching at 400 - elimnating sky, trees, etc.  The larger the window dimension, the farther down the Y axis I went.  I did not see a need to conduct the search all the way to the bottom of the image.
+After reviewing several frames from the video, I decided to start Y axis searching at 400 - eliminating sky, trees, etc.  The larger the window dimension, the farther down the Y axis I went.  I did not see a need to conduct the search all the way to the bottom of the image.
 
 #### X Axis Search 
-I chose not to narrow the search along the X axis.  This is because the road can swerve right or left.  Also, as in the project video, the car is in the left most lane of 3 lanes and cars in the right most lane.  In such cases, cars can appear at the far edges of the image.  There are clear examples of this in the figures below.
+I chose not to narrow the search along the X axis.  This is because the road can swerve right or left.  Also, as in the project video, the car is in the left most lane of 3 lanes and other cars may appear in the right most lane.  In such cases, these cars can appear at the far edges of the image.  There are clear examples of this in the figures below.
 
 #### Other Considerations 
 A final consideration in window search is computation costs.  The more windows, the longer it takes to process a frame.  So any additional windows in the search need to provide a definite benefit for the cost.  Several attempts at adding windows, new dimensions, etc. did not yield any significant increase in results.  
@@ -118,7 +118,7 @@ My final solution (although tweaked later) is as folows
 | 416 | 560 | 96 X 96 | 0.5 |
 | 432 | 624 | 128 X 128 | 0.5 |
 
-This is illustrated in the figures below.  The code that generated these images is in the jupyter notebook lane_detection.ipynb in the code cell with the same title as the this section.
+This is illustrated in the figures below.  The code that generated these images is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
 
 <br />
 <p align="center">
@@ -182,7 +182,7 @@ Here are 2 of the frames I generated and used for initial testing.
 <br />
 
 #### Training Data
-For training data, I used all png images of cars and non cars provided by the project repository.  These are sourced from GTI and KITTI.  This provided 8792 examples of cars and 8968 examples of non cars.  The code that I used to read in all of the image names is in the jupyter notebook lane_detection.ipynb in the code cell with the same title as the this section. Some examples of these are shown below. 
+For training data, I used all png images of cars and non cars provided by the project repository.  These are sourced from GTI and KITTI.  This provided 8792 examples of cars and 8968 examples of non cars.  The code that I used to read in all of the image names is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section. Some examples of these are shown below. 
 
 | Label | Example Images |
 |-------|-----|
@@ -196,10 +196,10 @@ Fitting a model for the pipeline was a 4 step process:  1) selecting feature par
 
 ### Parameter Selection
 
-I used all three feature types from above:  color histogram, spatial binning, and HOG.  I had no real intuitions about what parameter values might work so I tweaked most of them.  This exhaustive approach is not good at all since the permutations explode and the cycle time to train the mdoel each time can be time consuming.  I noticed color channel seemed to have the most effect.  I even tried using only HOG features.  Success of these experiments varied quite a bit but no real success.  Whenever I had good detection, I also had several false positives.  Seemed like more than I could reliably filter out.  I then tried the parameter set from Vehicle Detection Lesson, Exercise 35 since this seemed to work well on the test image in that exercise.  This also had a good effect on my test imags so I settled on that.  The final parameter set is as follows:
+I used all three feature types from above:  color histogram, spatial binning, and HOG.  I had no real intuitions about what parameter values might work so I tweaked most of them.  This exhaustive approach is not good at all since the permutations explode and the cycle time to train the mdoel each time can be time consuming.  I noticed color channel seemed to have the most effect.  I even tried using only HOG features.  Success of these experiments varied quite a bit but no real success.  Whenever I had good detection, I also had several false positives - more than I could reliably filter out.  I then tried the parameter set from Vehicle Detection Lesson, Exercise 35 since this seemed to work well on the test image in that exercise.  This also had a good effect on my test imags so I settled on that.  The final parameter set is as follows:
 
 | Parameter | Value | Explanation |
-|-------|-------|
+|-------|-------|-------|
 | color_space | YCrCb | Color channels of the image |
 | orientations | 9 | Number of HOG orientations |
 | pix-per_cell | 8 | HOG pixels per cell |
