@@ -133,13 +133,11 @@ This is illustrated in the figures below.  The code that generated these images 
 <b>Search Pattern Window Size 64X64</b>
 </p>
 <br />
-<br />
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test1_96.jpg"  width="320"/>
 <br />
 <b>Search Pattern Window Size 96X96</b>
 </p>
-<br />
 <br />
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test1_128.jpg"  width="320"/>
@@ -147,20 +145,17 @@ This is illustrated in the figures below.  The code that generated these images 
 <b>Search Pattern Window Size 128X128</b>
 </p>
 <br />
-<br />
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test1.jpg"  width="320"/>
 <br />
 <b>Full Search Pattern</b>
 </p>
 <br />
-<br />
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test13.jpg" width="320"/>
 <br />
 <b>Full Search Pattern for Another Frame</b>
 </p>
-<br />
 <br />
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test5.jpg"  width="320"/>
@@ -184,7 +179,6 @@ Here are 2 of the frames I generated and used for initial testing.
 <br />
 <b>Example Frame from Video Used for Development</b>
 </p>
-<br />
 <br />
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/test11.jpg"  width="320"/>
@@ -210,8 +204,19 @@ Fitting a model for the pipeline was a 4 step process:  1) selecting feature par
 
 I used all three feature types from above:  color histogram, spatial binning, and HOG.  I had no real intuitions about what parameter values might work so I tweaked most of them.  This exhaustive approach is not good at all since the permutations explode and the cycle time to train the mdoel each time can be time consuming.  I noticed color channel seemed to have the most effect.  I even tried using only HOG features.  Success of these experiments varied quite a bit but no real success.  Whenever I had good detection, I also had several false positives.  Seemed like more than I could reliably filter out.  I then tried the parameter set from Vehicle Detection Lesson, Exercise 35 since this seemed to work well on the test image in that exercise.  This also had a good effect on my test imags so I settled on that.  The final parameter set is as follows:
 
-| Parameter | Value |
+| Parameter | Value | Explanation |
 |-------|-------|
+| color_space | YCrCb | Color channels of the image |
+| orientations | 9 | Number of HOG orientations |
+| pix-per_cell | 8 | HOG pixels per cell |
+| cell_per_block | 2 | HOG cells per block |
+| hog_channel | ALL | which color channel to use, or ALL |
+| spatial_size | (32,32) | size of spatially binned image |
+| hist_bins | 32 | number of bins for color histogram |
+| spatial_feat | True | use spatial features or not |
+| hist_feat | True | use color histogram features or not |
+| hog_feat | True | use HOG features or not |
+
 
 ### Fitting the Model
 
@@ -223,7 +228,13 @@ Since training the model with the full data set is so time consuming, during my 
 
 <br />
 <p align="center">
-<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test1_64.jpg"  width="320"/>
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/search_classify_test1.jpg"  width="320"/>
+<br />
+<b>Search Pattern Window Size 64X64</b>
+</p>
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/search_classify_test10.jpg"  width="320"/>
 <br />
 <b>Search Pattern Window Size 64X64</b>
 </p>
