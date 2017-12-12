@@ -214,7 +214,7 @@ I used all three feature types from above:  color histogram, spatial binning, an
 
 ### Fitting the Model
 
-First I extracted the features from the training images using the parameter set above.  This took 90.02 seconds.  Each vector had 8460 features in it.  Then I normalized the vectors so that features with larger magnitude values would not have undue influence.  Then I split the total training feature set into 80% for training, and 20% for testing.  Then I trained a sklearn.svm.LinearSVC with the 80% training data.  This took 53.11 seconds.  I then used the 20% training data to calculate an accuracy of 0.9901.  Finally, I could optionally save the model to file so it could be used later without having to regenerate it.
+First I extracted the features from the training images using the parameter set above.  This took 90.02 seconds.  Each vector had 8460 features in it.  Then I normalized the vectors so that features with larger magnitude values would not have undue influence.  Then I split the total training feature set into 80% for training, and 20% for testing.  Then I trained a `sklearn.svm.LinearSVC` with the 80% training data.  This took 53.11 seconds.  I then used the 20% training data to calculate an accuracy of 0.9901.  Finally, I could optionally save the model to file so it could be used later without having to regenerate it.
 
 ### Test Images
 
@@ -250,13 +250,13 @@ Since training the model with the full data set is so time consuming, during my 
 
 ## HOG Sub-sampling
 
-The HOG feature extraction is computationally expensive.  Furthermore, calculating the HOG values for each window in the search causes redundency of this effort.  Therefore, I used the HOG sub-sampling approach used the the Vehicle Detection Project, Exercise 35.   I generated test images using this code to verify that it worked but none are provided here since there is really no difference in quality of output from previous images, this is just an efficienty issue.  The code for this is in the notebook vehicle_detection.ipynb in the code cell with the same title as the this section.  Also, several examples can be seen below this cell in teh notebook.
+The HOG feature extraction is computationally expensive.  Furthermore, calculating the HOG values for each window in the search causes redundency of this effort.  Therefore, I used the HOG sub-sampling approach used the the Vehicle Detection Project, Exercise 35.   I generated test images using this code to verify that it worked but none are provided here since there is really no difference in quality of output from previous images, this is just an efficiency issue.  The code for this is in the notebook vehicle_detection.ipynb in the code cell with the same title as the this section.  Also, several examples can be seen below this cell in the notebook.
 
 ## False Positives
 
 In order to remove any false positives, I used a heat map approach.  This is a copy of the image whereby each pixel is incremented by one for each time that it is covered by a bounding box, and all other pixels are zero.  It is assumed that false positives will not overlap but that positive detections will.  This allows us to remove any pixels of low heat value.  Furthemore, it allows us to maintain a history and apply the heat map over several frames.  In this case, it is assumed that a false positive in one frame will not appear in the next frame or so in the sequence - it being an anomaly.  But of course, it is expected the positive detections will appear in the subsequent frames, and therefore, overlap to a great degree.  
 
-Once a heat map is built on a single frame, or multiple frames, a threshold can then be applied to remove the pixels indicating false positives.  This is then passed through the scipy.ndimage.measurements.label() function which groups pixels into distinct areas which can then be used to determine the entire bounding box for the vehicle.
+Once a heat map is built on a single frame, or multiple frames, a threshold can then be applied to remove the pixels indicating false positives.  This is then passed through the `scipy.ndimage.measurements.label()` function which groups pixels into distinct areas which can then be used to determine the entire bounding box for the vehicle.
 
 Below are some video frames with the final bounding boxes found and the subsequent heat map generated.  The code for the heat map approach is in the notebook vehicle_detection.ipynb in the code cell with the same title as the this section.  Additional image examples can be seen there as well.
 
@@ -281,23 +281,23 @@ Below are some video frames with the final bounding boxes found and the subseque
 
 ## Tracking Pipeline
 
-The pipeline is actually a function (method in my case) that takes an single frame image from teh project video and returns a copy with vehicles clearly marked.  The function/method must have this signature because that is what is required by the MoviePy VideoFileClip object that processes the project video.  
+The pipeline is actually a function (method in my case) that takes an single frame image from teh project video and returns a copy with vehicles clearly marked.  The function/method must have this signature because that is what is required by the MoviePy `VideoFileClip` object that processes the project video.  
 
-In this case, I had to maintain a history of previous images so that I could filter out false positives based on heat level.  Therefore, I decided to make my pipeline a class, VehicleDetectionPipeline.  The implementation for this class is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
+In this case, I had to maintain a history of previous images so that I could filter out false positives based on heat level.  Therefore, I decided to make my pipeline a class, `VehicleDetectionPipeline`.  The implementation for this class is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
 
-An instance of this class will maintain a history of 10 frames - actually the bounding boxes found for the frame.  This allows me to build a heat map for the previous 9 frames plus the current frame being processed.  
+An instance of this class will maintain a history of 10 frames - actually the bounding boxes found for the frames.  This allows me to build a heat map for the previous 9 frames plus the current frame being processed.  
 
-The process() method processes the video frame and returns the marked up image.  This method conducts the 3 window searches described previously of the input image image using the model saved previously.  All of the bounding boxes found are placed in a collection and then placed in history. 
+The `process()` method processes the video frame and returns the marked up image.  This method conducts the 3 window searches described previously of the input image image using the model saved previously.  All of the bounding boxes found are placed in a collection and then placed in history. 
 
 It then creates a heat map for all frames in history.   I used a heat map threshold of 1 plus the the number of history frames divided by 3.  This did an adequate job of removing any false positives form the current frame.  
 
-This then is passed through the label object described previously to determine the regions for bounding boxes.  These final bounding boxes wearere then used to markup a copy of the input image and return it.
+This then is passed through the label object described previously to determine the regions for bounding boxes.  These final bounding boxes are then used to markup a copy of the input image and return it.
 
 I tested the pipeline on my single test images.  The result of this can be seen on the jupyter notebook vehicle_detection.ipynb in the cell with the same name as this section.  But this does not test out the history aspect of the object.  So I then tested it on 24 sequential frames taken from the project video and saved as single images.  The results of this test can be seen in the notebook as well.
 
 ## Create Video
 
-Finally I created a new instance of VehicleDetectionPipeline (to start with no history) and used it to create my video output using MoviePy and VideoFileClip.  The code for this can be seen in the jupyter notebook vehicle_detection.ipynb in the cell with the same name as this section.  The final video is project_video_final.mp4 in the repository.
+Finally I created a new instance of VehicleDetectionPipeline (to start with no history) and used it to create my video output using MoviePy `VideoFileClip`.  The code for this can be seen in the jupyter notebook vehicle_detection.ipynb in the cell with the same name as this section.  The final video is project_video_final.mp4 in the repository.
 
 
 ## Discussion
