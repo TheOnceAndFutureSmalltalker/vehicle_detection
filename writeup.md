@@ -10,6 +10,7 @@ The goals / steps of this project are the following:
 * Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
 * Estimate a bounding box for vehicles detected.
 
+<br />
 ## Features
 First I will talk about the kinds of features that can be extracted from an image for use in a machine learning algorithm.  There are three basic types, color histograms, spatial binning, and histogram of oriented gradients.
 
@@ -189,7 +190,7 @@ For training data, I used all png images of cars and non cars provided by the pr
 | Cars | <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/202.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/21.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/269.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/36.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0037.png"  />  <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0078.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0172.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0236.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0353.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0361.png"  />|
 | Non Cars | <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra124.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra133.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra136.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra14.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra250.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra40.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image26.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image764.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image820.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image911.png" />  |
 
-
+<br />
 ## Search and Classify
 
 Fitting a model for the pipeline was a 4 step process:  1) selecting feature parameters, 2) extracting feature vectors from the training data using those parameters, 3) fitting a linear SVM model using those feature vectors, 3) applying the trained model to the test images (video frames) and visually inspecting for detections and false positives.  Also, since this process involves a window search, I varied that as well.  Some models fit better under one window size, but not another.  All of the code used for this section is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
@@ -245,6 +246,53 @@ Since training the model with the full data set is so time consuming, during my 
 <b>Two Cars Detected</b>
 </p>
 <br />
+
+<br />
+
+## HOG Sub-sampling
+
+The HOG feature extraction is computationally expensive.  Furthermore, calculating the HOG values for each window in the search causes redundency of this effort.  Therefore, I used the HOG sub-sampling approach used the the Vehicle Detection Project, Exercise 35.   I generated test images using this code to verify that it worked but none are provided here since there is really no difference in quality of output previous images, this is just an efficienty issue.  The code for this is in the notebook vehicle_detection.ipynb in the code cell with the same title as the this section.  Also, several sample examples can be seen below this cell.
+
+## False Positives
+
+In order to remove any false positives, I used a heat map approach.  This is a copy of the image whereby each pixel is incremented by one for each time that it is covered by a bounding box, and all other pixels are zero.  It is assumed that false positives will not overlap but that positive detections will.  This allows us to remove any pixels of low heat value.  Furthemore, it allows us to maintain a history and apply the heat map over several frames.  In this case, it is assumed that a false positive in one frame will not appear in the next frame or so in the sequence - it being an anomaly.  But of course, it is expected the positive detections will appear in the subsequent frames, and therefore, overlap to a great degree.  
+
+Once a heat map is built on a single frame, or multiple frames, a threshold can then be applied to remove the pixels indicating false positives.  This is then passed through the scipy.ndimage.measurements.label() function which groups pixels into distinct areas which can then be used to determine the entire bounding box for the vehicle.
+
+Below are some video frames with the final bounding boxes found and the subsequent heat map generated.  The code for the heat map approach is in the notebook vehicle_detection.ipynb in the code cell with the same title as the this section.  Additional image examples can be seen there as well.
+
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/hog_sub_samp_test1.jpg"  width="320"/>
+<br />
+<b>Bounding Boxes and heat Maps 1</b>
+</p>
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/hog_sub_samp_test4.jpg"  width="320"/>
+<br />
+<b>Bounding Boxes and heat Maps 2</b>
+</p>
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/hog_sub_samp_test6.jpg"  width="320"/>
+<br />
+<b>Bounding Boxes and heat Maps 3</b>
+</p>
+
+## Tracking Pipeline
+
+The pipeline is actually a function (method in my case) that takes an single frame image from teh project video and returns a copy with vehicles clearly marked.  The function/method must have this signature because that is what is required by the MoviePy VideoFileClip object that processes the project video.  
+
+In this case, I had to maintain a history of previous images so that I could filter out false positives based on heat level.  Therefor, I decided to make my pipeline a class, VehicleDetectionPipeline.  The implementation for this class is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
+
+An instance of this class will maintain a history of 10 frames - actually the bounding boxes found for the frame.  This allows me to build a heat map for the previous 9 frames plus the current frame being processed.  
+
+The process() method processes the video frame and returns the marked up image.  This method conducts the 3 window searches described previously of the input image image using the model saved previously.  All of the bounding boxes found are placed in a collection and then placed in history. 
+
+I then created a heat map for all frames in history.   I used a heat map threshold of 1 plus the the number of history frames divided by 3.  This did an adequate job of removing any false positives form the current frame.  
+
+This then was passed through the label object to determine the regions for bounding boxes.  These final bounding boxes were then used to markup a copy of the input image and return it.
 
 #### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
