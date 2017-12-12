@@ -156,16 +156,16 @@ This is illustrated in the figures below.  The code that generated these images 
 <br />
 <br />
 <p align="center">
-<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test5.jpg" width="320"/>
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test13.jpg" width="320"/>
 <br />
 <b>Full Search Pattern for Another Frame</b>
 </p>
 <br />
 <br />
 <p align="center">
-<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test13.jpg"  width="320"/>
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test5.jpg"  width="320"/>
 <br />
-<b>Full Search Pattern for Yet Another Frame</b>
+<b>Yet Another Frame 0.75 Overlap</b>
 </p>
 <br />
 
@@ -180,26 +180,26 @@ Here are 2 of the frames I generated and used for initial testing.
 
 <br />
 <p align="center">
-<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/testX.jpg"  width="320"/>
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/test7.jpg"  width="320"/>
 <br />
 <b>Example Frame from Video Used for Development</b>
 </p>
 <br />
 <br />
 <p align="center">
-<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/testX.jpg"  width="320"/>
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/test11.jpg"  width="320"/>
 <br />
 <b>Another Example Frame from Video Used for Development</b>
 </p>
 <br />
 
 #### Training Data
-For training data, I used all png images of cars and non cars provided by the project repository.  These are sourced from GTI and KITTI.  This provided 8792 examples of cars and 8968 examples of non cars.  Some examples of these are shown below. The code that generated these images is in the jupyter notebook lane_detection.ipynb in the code cell with the same title as the this section.
+For training data, I used all png images of cars and non cars provided by the project repository.  These are sourced from GTI and KITTI.  This provided 8792 examples of cars and 8968 examples of non cars.  Some examples of these are shown below. 
 
 | Label | Example Images |
 |-------|-----|
-| Cars | |
-| Non Cars | |
+| Cars | <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/202.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/21.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/269.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/36.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0037.png"  />  <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0078.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0172.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0236.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0353.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0361.png"  />|
+| Non Cars | <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra124.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra133.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra136.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra14.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra250.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra40.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image26.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image764.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image820.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image911.png" />  |
 
 #### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
