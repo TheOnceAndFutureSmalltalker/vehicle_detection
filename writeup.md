@@ -284,79 +284,22 @@ Below are some video frames with the final bounding boxes found and the subseque
 
 The pipeline is actually a function (method in my case) that takes an single frame image from teh project video and returns a copy with vehicles clearly marked.  The function/method must have this signature because that is what is required by the MoviePy VideoFileClip object that processes the project video.  
 
-In this case, I had to maintain a history of previous images so that I could filter out false positives based on heat level.  Therefor, I decided to make my pipeline a class, VehicleDetectionPipeline.  The implementation for this class is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
+In this case, I had to maintain a history of previous images so that I could filter out false positives based on heat level.  Therefore, I decided to make my pipeline a class, VehicleDetectionPipeline.  The implementation for this class is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
 
 An instance of this class will maintain a history of 10 frames - actually the bounding boxes found for the frame.  This allows me to build a heat map for the previous 9 frames plus the current frame being processed.  
 
 The process() method processes the video frame and returns the marked up image.  This method conducts the 3 window searches described previously of the input image image using the model saved previously.  All of the bounding boxes found are placed in a collection and then placed in history. 
 
-I then created a heat map for all frames in history.   I used a heat map threshold of 1 plus the the number of history frames divided by 3.  This did an adequate job of removing any false positives form the current frame.  
+It then creates a heat map for all frames in history.   I used a heat map threshold of 1 plus the the number of history frames divided by 3.  This did an adequate job of removing any false positives form the current frame.  
 
-This then was passed through the label object to determine the regions for bounding boxes.  These final bounding boxes were then used to markup a copy of the input image and return it.
+This then is passed through the label object described previously to determine the regions for bounding boxes.  These final bounding boxes wearere then used to markup a copy of the input image and return it.
 
-#### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
+I tested the pipeline on my single test images.  The result of this can be seen on the jupyter notebook vehicle_detection.ipynb in the cell with the same name as this section.  But this does not test out the history aspect of the object.  So I then tested it on 24 sequential frames taken from the project video and saved as single images.  The results of this test can be seen in the notebook as well.
 
-The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
+## Create Video
 
-I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
+Finally I created a new instance of VehicleDetectionPipeline (to start with no history) and used it to create my video output using MoviePy and VideoFileClip.  The code for this can be seen in the jupyter notebook vehicle_detection.ipynb in the cell with the same name as this section.  The final video is project_video_final.mp4 in the repository.
 
-![alt text][image1]
-
-I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
-
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
-
-
-![alt text][image2]
-
-#### 2. Explain how you settled on your final choice of HOG parameters.
-
-I tried various combinations of parameters and...
-
-#### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
-
-I trained a linear SVM using...
-
-### Sliding Window Search
-
-#### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
-
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
-
-![alt text][image3]
-
-#### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
-
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
-
-![alt text][image4]
----
-
-### Video Implementation
-
-#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
-
-
-#### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
-
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
-
-Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
-
-### Here are six frames and their corresponding heatmaps:
-
-![alt text][image5]
-
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
-
-
-
----
 
 ## Discussion
 
