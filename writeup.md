@@ -174,7 +174,7 @@ This is illustrated in the figures below.  The code that generated these images 
 I had 2 kinds of test data.  Single frames for initial testing and training data for training the model.
 
 #### Test Data 
-For single frame test data, I opted to use actual frames from the project video.  Six were provided in the project repository.  I generated 7 others from different points in the video.  These were based on trouble spots I experienced in my previous attempt at this project.  These images were used in developing the window search and parameter tuning for the model.  The code I used to generate these additional frames is not in the vehicle_detection.ipynb but looks like this.
+For single frame test data, I opted to use actual frames from the project video.  Six were provided in the project repository.  I generated 7 others from different points in the video.  These were based on trouble spots I experienced in my previous attempt at this project.  These images were used in developing the window search and parameter tuning for the model.  The code I used to generate these additional frames is not in the vehicle_detection.ipynb.
 
 Here are 2 of the frames I generated and used for initial testing.
 
@@ -194,7 +194,7 @@ Here are 2 of the frames I generated and used for initial testing.
 <br />
 
 #### Training Data
-For training data, I used all png images of cars and non cars provided by the project repository.  These are sourced from GTI and KITTI.  This provided 8792 examples of cars and 8968 examples of non cars.  Some examples of these are shown below. 
+For training data, I used all png images of cars and non cars provided by the project repository.  These are sourced from GTI and KITTI.  This provided 8792 examples of cars and 8968 examples of non cars.  The code that I used to read in all of the image names is in the jupyter notebook lane_detection.ipynb in the code cell with the same title as the this section. Some examples of these are shown below. 
 
 | Label | Example Images |
 |-------|-----|
@@ -208,10 +208,26 @@ Fitting a model for the pipeline was a 4 step process:  1) selecting feature par
 
 ### Parameter Selection
 
-I used all three feature types from above:  color histogram, spatial binning, and HOG.  I had no real intuitions about what parameter values might work so I tweaked most of them.  This exhaustive approach is not good at all since the permutations explode and the cycle time to train the mdoel each time can be time consuming.  I noticed color channel seemed to have the most effect.  I even tried using only HOG features.  Success of these experiments varied quite a bit but no real success.  Whenever I had good detection, I also had several false positives.  Seemed like more than I could reliably filter out.  I then tried the parameter set from Vehicle Detection Lesson, Exercise 35 since this seemed to work well on the test image in that exercise.  This also had a good effect on my test imags so I settled on that.  The final aprameter set is as follows:
+I used all three feature types from above:  color histogram, spatial binning, and HOG.  I had no real intuitions about what parameter values might work so I tweaked most of them.  This exhaustive approach is not good at all since the permutations explode and the cycle time to train the mdoel each time can be time consuming.  I noticed color channel seemed to have the most effect.  I even tried using only HOG features.  Success of these experiments varied quite a bit but no real success.  Whenever I had good detection, I also had several false positives.  Seemed like more than I could reliably filter out.  I then tried the parameter set from Vehicle Detection Lesson, Exercise 35 since this seemed to work well on the test image in that exercise.  This also had a good effect on my test imags so I settled on that.  The final parameter set is as follows:
 
 | Parameter | Value |
 |-------|-------|
+
+### Fitting the Model
+
+First I extracted the features from the training images using the parameter set above.  This took 90.02 seconds.  Each vector had 8460 features in it.  Then I normalized the vectors so that features with larger magnitude values would not have undue influence.  Then I split the total training feature set into 80% for training, and 20% for testing.  Then I trained a sklearn.svm.LinearSVC with the 80% training data.  This took 53.11 seconds.  I then used the 20% training data to calculate an accuracy of 0.9901.  Finally, I could optionally save the model to file so it could be used later without having to regenerate it.
+
+### Test Images
+
+Since training the model with the full data set is so time consuming, during my experimentation phase, I would only use a sub sample of the data, typically 1000 images.  This reduced my cycle time since the model had to be retrained with each change of the parameters.  Below are some of my test images with the searches resulting from the final model.
+
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/windows_test1_64.jpg"  width="320"/>
+<br />
+<b>Search Pattern Window Size 64X64</b>
+</p>
+<br />
 
 #### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
