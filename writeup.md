@@ -281,7 +281,7 @@ Below are some video frames with the final bounding boxes found and the subseque
 
 ## Tracking Pipeline
 
-The pipeline is actually a function (method in my case) that takes an single frame image from teh project video and returns a copy with vehicles clearly marked.  The function/method must have this signature because that is what is required by the MoviePy `VideoFileClip` object that processes the project video.  
+The pipeline is actually a function (method in my case) that takes an single frame image from the project video and returns a copy with vehicles clearly marked.  The function/method must have this signature because that is what is required by the MoviePy `VideoFileClip` object that processes the project video.  
 
 In this case, I had to maintain a history of previous images so that I could filter out false positives based on heat level.  Therefore, I decided to make my pipeline a class, `VehicleDetectionPipeline`.  The implementation for this class is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
 
