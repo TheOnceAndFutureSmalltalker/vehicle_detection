@@ -287,17 +287,17 @@ In this case, I had to maintain a history of previous images so that I could fil
 
 An instance of this class will maintain a history of 10 frames - actually the bounding boxes found for the frames.  This allows me to build a heat map for the previous 9 frames plus the current frame being processed.  
 
-The `process()` method processes the video frame and returns the marked up image.  This method conducts the 3 window searches described previously of the input image image using the model saved previously.  All of the bounding boxes found are placed in a collection and then placed in history. 
+The `process()` method processes the video frame and returns the marked up image.  This method conducts the 3 window searches described previously of the input image using the model saved previously.  All of the bounding boxes found are placed in a collection and then placed in history. 
 
 It then creates a heat map for all frames in history.   I used a heat map threshold of 1 plus the the number of history frames divided by 3.  This did an adequate job of removing any false positives form the current frame.  
 
-This then is passed through the label object described previously to determine the regions for bounding boxes.  These final bounding boxes are then used to markup a copy of the input image and return it.
+This then is passed through the `label` object described previously to determine the regions for bounding boxes.  These final bounding boxes are then used to mark up a copy of the input image and return it.
 
-I tested the pipeline on my single test images.  The result of this can be seen on the jupyter notebook vehicle_detection.ipynb in the cell with the same name as this section.  But this does not test out the history aspect of the object.  So I then tested it on 24 sequential frames taken from the project video and saved as single images.  The results of this test can be seen in the notebook as well.
+I tested the pipeline on my single test images.  The result of this can be seen on the jupyter notebook vehicle_detection.ipynb in the cell with the same name as this section.  But this does not test out the history aspect of the object.  So I then tested it on 24 sequential frames taken from the project video and saved as set of single images.  The results of this test can be seen in the notebook as well.
 
 ## Create Video
 
-Finally I created a new instance of VehicleDetectionPipeline (to start with no history) and used it to create my video output using MoviePy `VideoFileClip`.  The code for this can be seen in the jupyter notebook vehicle_detection.ipynb in the cell with the same name as this section.  The final video is project_video_final.mp4 in the repository.
+Finally I created a new instance of `VehicleDetectionPipeline` (to start with no history) and used it to create my video output using MoviePy `VideoFileClip`.  The code for this can be seen in the jupyter notebook vehicle_detection.ipynb in the cell with the same name as this section.  The final video is project_video_final.mp4 in the repository.
 
 
 ## Discussion
