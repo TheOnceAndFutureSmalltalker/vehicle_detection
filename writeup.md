@@ -23,20 +23,17 @@ The first of three types of feature extraction was a color histogram.  This type
 <b>Car Image RGB Color Histogram</b>
 </p>
 <br />
-<br />
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/hist_rgb_road.jpg" />
 <br />
 <b>Road Image RGB COlor Histogram</b>
 </p>
 <br />
-<br />
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/hist_rgb_tree.jpg" />
 <br />
 <b>Tree Image RGB Color Histogram</b>
 </p>
-<br />
 <br />
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/hist_rgb_sky.jpg" />
@@ -55,20 +52,17 @@ Spatial binning is an attempt to use raw pixel values as a way to determine if a
 <b>Car Image Spatial Bin</b>
 </p>
 <br />
-<br />
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/spat_bin_road.jpg" />
 <br />
 <b>Road Image Spatial Bin</b>
 </p>
 <br />
-<br />
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/spat_bin_tree.jpg" />
 <br />
 <b>Tree Image Spatial Bin</b>
 </p>
-<br />
 <br />
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/spat_bin_sky.jpg" />
@@ -198,7 +192,7 @@ For training data, I used all png images of cars and non cars provided by the pr
 
 ## Search and Classify
 
-Fitting a model for the pipeline was a 4 step process:  1) selecting feature parameters, 2) extracting feature vectors from the training data using those parameters, 3) fitting a linear SVM model using those feature vectors, 3) applying the trained model to the test images (video frames) and visually inspecting for detections and false positives.  Also, since this process involves a window search, I varied that as well.  Some models fit better under one window size, but not another.  All of the code used for this sectoin 
+Fitting a model for the pipeline was a 4 step process:  1) selecting feature parameters, 2) extracting feature vectors from the training data using those parameters, 3) fitting a linear SVM model using those feature vectors, 3) applying the trained model to the test images (video frames) and visually inspecting for detections and false positives.  Also, since this process involves a window search, I varied that as well.  Some models fit better under one window size, but not another.  All of the code used for this section is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
 
 ### Parameter Selection
 
@@ -230,13 +224,25 @@ Since training the model with the full data set is so time consuming, during my 
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/search_classify_test1.jpg"  width="320"/>
 <br />
-<b>Search Pattern Window Size 64X64</b>
+<b>Test Image Cars Detected</b>
 </p>
 <br />
 <p align="center">
 <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/search_classify_test10.jpg"  width="320"/>
 <br />
-<b>Search Pattern Window Size 64X64</b>
+<b>Test Image Car Detected</b>
+</p>
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/search_classify_test2.jpg"  width="320"/>
+<br />
+<b>No False Positives</b>
+</p>
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/search_classify_test6.jpg"  width="320"/>
+<br />
+<b>Two Cars Detected</b>
 </p>
 <br />
 
