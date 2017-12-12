@@ -8,14 +8,13 @@ The goals / steps of this project are the following:
 * Note: for those first two steps don't forget to normalize your features and randomize a selection for training and testing.
 * Implement a sliding-window technique and use your trained classifier to search for vehicles in images.
 * Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
-* Estimate a bounding box for vehicles detected.
+* Estimate a bounding box for vehicles detected.<br />
 
-<br />
 ## Features
 First I will talk about the kinds of features that can be extracted from an image for use in a machine learning algorithm.  There are three basic types, color histograms, spatial binning, and histogram of oriented gradients.
 
 ### Feature Extraction - Color Histograms
-The first of three types of feature extraction was a color histogram.  This type of feature extraction counts the number of pixels falling within a certain range, or bin.  This is done for each of the 3 channels.  Below are the RGB histograms for an image of a car, a section of roag, a tree, and some sky.  You can see that the car histograms are more complex and should be easy to delineate from the other three in a machine learning process.  The code generating these images is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as this section.
+The first of three types of feature extraction was a color histogram.  This type of feature extraction counts the number of pixels falling within a certain range, or bin.  This is done for each of the 3 channels.  Below are the RGB histograms for an image of a car, a section of road, a tree, and some sky.  You can see that the car histograms are more complex and should be easy to delineate from the other three in a machine learning process.  The code generating these images is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as this section.
 
 <br />
 <p align="center">
@@ -44,7 +43,7 @@ The first of three types of feature extraction was a color histogram.  This type
 <br />
 
 ### Feature Extraction - Spatial Binning
-Spatial binning is an attempt to use raw pixel values as a way to determine if an image is a vehicle or not.  The image is typically reduced in size to xomething manageable like 32X32.  Otherwise, the feature set can become quite long.  Even with 32X32 image and 3 channels, this yields 32X32X3=3072 features!  Below are the plots of the pixel values for a 32X32 vewrsion of the same images used above.  Again the car graph is quite different from the other 3 and should be useful for a machine learning approach.  The code that generated these images is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
+Spatial binning is an attempt to use raw pixel values as a way to determine if an image is a vehicle or not.  The image is typically reduced in size to something manageable like 32X32.  Otherwise, the feature set can become quite long.  Even with 32X32 image and 3 channels, this yields 32X32X3=3072 features!  Below are the plots of the pixel values for a 32X32 version of the same images used above.  Again the car graph is quite different from the other 3 and should be useful for a machine learning approach.  The code that generated these images is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
 
 <br />
 <p align="center">
@@ -190,7 +189,7 @@ For training data, I used all png images of cars and non cars provided by the pr
 | Cars | <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/202.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/21.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/269.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/36.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0037.png"  />  <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0078.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0172.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0236.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0353.png"  /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/vehicles/image0361.png"  />|
 | Non Cars | <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra124.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra133.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra136.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra14.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra250.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/extra40.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image26.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image764.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image820.png" /> <img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/training_images_sample/non-vehicles/image911.png" />  |
 
-<br />
+
 ## Search and Classify
 
 Fitting a model for the pipeline was a 4 step process:  1) selecting feature parameters, 2) extracting feature vectors from the training data using those parameters, 3) fitting a linear SVM model using those feature vectors, 3) applying the trained model to the test images (video frames) and visually inspecting for detections and false positives.  Also, since this process involves a window search, I varied that as well.  Some models fit better under one window size, but not another.  All of the code used for this section is in the jupyter notebook vehicle_detection.ipynb in the code cell with the same title as the this section.
@@ -251,7 +250,7 @@ Since training the model with the full data set is so time consuming, during my 
 
 ## HOG Sub-sampling
 
-The HOG feature extraction is computationally expensive.  Furthermore, calculating the HOG values for each window in the search causes redundency of this effort.  Therefore, I used the HOG sub-sampling approach used the the Vehicle Detection Project, Exercise 35.   I generated test images using this code to verify that it worked but none are provided here since there is really no difference in quality of output previous images, this is just an efficienty issue.  The code for this is in the notebook vehicle_detection.ipynb in the code cell with the same title as the this section.  Also, several sample examples can be seen below this cell.
+The HOG feature extraction is computationally expensive.  Furthermore, calculating the HOG values for each window in the search causes redundency of this effort.  Therefore, I used the HOG sub-sampling approach used the the Vehicle Detection Project, Exercise 35.   I generated test images using this code to verify that it worked but none are provided here since there is really no difference in quality of output from previous images, this is just an efficienty issue.  The code for this is in the notebook vehicle_detection.ipynb in the code cell with the same title as the this section.  Also, several examples can be seen below this cell in teh notebook.
 
 ## False Positives
 
