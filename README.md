@@ -1,6 +1,13 @@
 
 # Vehicle Detection
 
+<br />
+<p align="center">
+<img src="https://github.com/TheOnceAndFutureSmalltalker/vehicle_detection/blob/master/out_images/search_classify_test1.jpg"  />
+<br />
+<b>Detecting Vehicles in Video</b>
+</p>
+
 The goals / steps of this project are the following:
 
 * Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier
